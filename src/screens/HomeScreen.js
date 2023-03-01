@@ -10,29 +10,16 @@ import {
   Modal,
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { ProductContext } from '../context/ProductContext';
-import AddProductModal from './AddProductModal';
+import { ItemContext } from '../context/ItemContext';
+import AddItemModal from '../components/AddItemModal';
 
 const HomeScreen = ({ navigation }) => {
-  const { products, addProduct } = useContext(ProductContext);
+  const { items, addItem } = useContext(ItemContext);
   const [modalVisible, setModalVisible] = useState(false);
-
-  // console.log(products[0].image);
-  // console.log(products[1].image);
-
-  // const renderItem = ({ item }) => (
-  //   <TouchableOpacity
-  //     style={styles.item}
-  //     onPress={() => navigation.navigate('Detail', { product: item })}
-  //   >
-  //     <Image source={item.image} style={styles.image} />
-  //     <Text style={styles.name}>{item.name}</Text>
-  //   </TouchableOpacity>
-  // );
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => navigation.navigate('Detail', { product: item })}
+      onPress={() => navigation.navigate('Detail', { item: item })}
     >
       <ListItem bottomDivider topDivider>
         <Image source={item.image} style={styles.image} />
@@ -47,14 +34,14 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Modal visible={modalVisible} animationType="slide">
-        <AddProductModal onClose={() => setModalVisible(false)} />
+        <AddItemModal onClose={() => setModalVisible(false)} />
       </Modal>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Products</Text>
+        <Text style={styles.headerTitle}>Foxes Items</Text>
         <Button title="Add" onPress={() => setModalVisible(true)} />
       </View>
       <FlatList
-        data={products}
+        data={items}
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
         style={styles.list}
@@ -108,57 +95,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-
-// import React, { useState } from 'react';
-// import {
-//   FlatList,
-//   Image,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View,
-// } from 'react-native';
-// import { ListItem, Input } from 'react-native-elements';
-
-// const HomeScreen = ({ navigation }) => {
-//   const [products, setProducts] = useState(require('../../data/foxes.json'));
-
-//   const renderItem = ({ item }) => (
-//     <TouchableOpacity
-//       onPress={() =>
-//         navigation.navigate('Detail', { product: item, setProducts })
-//       }
-//     >
-//       <ListItem bottomDivider>
-//         <Image
-//           source={require('../../assets/images/fox1.jpg')}
-//           // source={require(`../../assets/images/${item.image}`)}
-//           style={styles.image}
-//         />
-//         <ListItem.Content>
-//           <ListItem.Title>
-//             {item.name} {item.image}
-//           </ListItem.Title>
-//         </ListItem.Content>
-//         <ListItem.Chevron />
-//       </ListItem>
-//     </TouchableOpacity>
-//   );
-
-//   return (
-//     <FlatList
-//       data={products}
-//       renderItem={renderItem}
-//       keyExtractor={(item) => item.id}
-//     />
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   image: {
-//     width: 50,
-//     height: 50,
-//   },
-// });
-
-// export default HomeScreen;

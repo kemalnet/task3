@@ -1,32 +1,30 @@
 import React, { createContext, useState } from 'react';
-import productsData from '../../data/foxes.json';
+import itemsData from '../../data/foxes.json';
 
-export const ProductContext = createContext({
-  products: [],
-  addProduct: (newProduct) => {},
-  updateProduct: (id, name) => {},
+export const ItemContext = createContext({
+  items: [],
+  addItem: (newItem) => {},
+  updateItem: (id, name) => {},
 });
 
-const ProductProvider = ({ children }) => {
-  const [products, setProducts] = useState(productsData);
+const ItemProvider = ({ children }) => {
+  const [items, setItems] = useState(itemsData);
 
-  const addProduct = (newProduct) => {
-    setProducts([...products, newProduct]);
+  const addItem = (newItem) => {
+    setItems([...items, newItem]);
   };
 
-  const updateProduct = (id, name) => {
-    setProducts((prevProducts) =>
-      prevProducts.map((product) =>
-        product.id === id ? { ...product, name } : product
-      )
+  const updateItem = (id, name) => {
+    setItems((prevItems) =>
+      prevItems.map((item) => (item.id === id ? { ...item, name } : item))
     );
   };
 
-  const productsWithContext = products.map((product) => {
-    // I was trying to change image name dynamically but it does'n work.
-    // const updatedImage = require(`../../assets/images/${product.image}`);
+  const itemsWithContext = items.map((item) => {
+    // I was trying to change image name dynamically for require() func in HomeScreen but it does'n work. So, I used switch here.
+    // const updatedImage = require(`../../assets/images/${item.image}`);
     let updatedImage = '';
-    switch (product.image) {
+    switch (item.image) {
       case 'fox0.jpg':
         updatedImage = require('../../assets/images/fox0.jpg');
         break;
@@ -56,16 +54,16 @@ const ProductProvider = ({ children }) => {
         updatedImage = require('../../assets/images/fox0.jpg');
     }
 
-    return { ...product, image: updatedImage };
+    return { ...item, image: updatedImage };
   });
 
   return (
-    <ProductContext.Provider
-      value={{ products: productsWithContext, addProduct, updateProduct }}
+    <ItemContext.Provider
+      value={{ items: itemsWithContext, addItem, updateItem }}
     >
       {children}
-    </ProductContext.Provider>
+    </ItemContext.Provider>
   );
 };
 
-export default ProductProvider;
+export default ItemProvider;

@@ -9,15 +9,15 @@ import {
   Alert,
   ToastAndroid,
 } from 'react-native';
-import { ProductContext } from '../context/ProductContext';
+import { ItemContext } from '../context/ItemContext';
 
 const DetailScreen = ({ route, navigation }) => {
-  const { product } = route.params;
-  const { updateProduct } = useContext(ProductContext);
-  const [productName, setProductName] = useState(product.name);
+  const { item } = route.params;
+  const { updateItem } = useContext(ItemContext);
+  const [itemName, setItemName] = useState(item.name);
 
   const handleNameChange = () => {
-    updateProduct(product.id, productName);
+    updateItem(item.id, itemName);
 
     if (Platform.OS === 'android') {
       ToastAndroid.show('Item updated', ToastAndroid.SHORT);
@@ -35,13 +35,13 @@ const DetailScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={product.image} style={styles.image} />
-      <Text style={styles.name}>{product.name}</Text>
+      <Image source={item.image} style={styles.image} />
+      <Text style={styles.name}>{item.name}</Text>
       <TextInput
         style={styles.input}
         autoCapitalize="none"
-        value={productName}
-        onChangeText={setProductName}
+        value={itemName}
+        onChangeText={setItemName}
       />
       <Text style={styles.label}>Edit name</Text>
       <Button title="Save" onPress={handleNameChange} />
@@ -80,73 +80,3 @@ const styles = StyleSheet.create({
 });
 
 export default DetailScreen;
-
-// import React, { useState } from 'react';
-// import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-// import { Input } from 'react-native-elements';
-// import { ToastAndroid } from 'react-native';
-
-// // import products from '../../data/foxes.json';
-
-// const DetailScreen = ({ route, navigation }) => {
-//   const { product } = route.params;
-//   const [name, setName] = useState(product.name);
-
-//   //added new
-//   const [products, setProducts] = useState(require('../../data/foxes.json'));
-
-//   const handleNameChange = (text) => {
-//     setName(text);
-//   };
-
-//   const handleSave = () => {
-//     const updatedProduct = { ...product, name };
-//     const updatedProducts = products.map((p) =>
-//       p.id === updatedProduct.id ? updatedProduct : p
-//     );
-//     setProducts(updatedProducts);
-//     ToastAndroid.show('Product updated', ToastAndroid.SHORT);
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Image
-//         source={require('../../assets/images/fox1.jpg')}
-//         // source={require(`./assets/images/${product.image}`)}
-//         style={styles.image}
-//       />
-//       <Input
-//         value={name}
-//         onChangeText={handleNameChange}
-//         label="Product Name"
-//       />
-//       <TouchableOpacity onPress={handleSave} style={styles.button}>
-//         <Text style={styles.buttonText}>Save</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   image: {
-//     width: 200,
-//     height: 200,
-//     marginBottom: 20,
-//   },
-//   button: {
-//     backgroundColor: 'blue',
-//     padding: 10,
-//     borderRadius: 5,
-//     marginTop: 20,
-//   },
-//   buttonText: {
-//     color: 'white',
-//   },
-// });
-
-// export default DetailScreen;

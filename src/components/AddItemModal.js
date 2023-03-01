@@ -11,12 +11,12 @@ import {
   ActionSheetIOS,
   TouchableOpacity,
 } from 'react-native';
-import { ProductContext } from '../context/ProductContext';
+import { ItemContext } from '../context/ItemContext';
 import { useNavigation } from '@react-navigation/native';
 
-const AddProductModal = ({ onClose }) => {
+const AddItemModal = ({ onClose }) => {
   const [name, setName] = useState('');
-  //   const [image, setImage] = useState('');
+
   const [selectedImage, setSelectedImage] = useState('fox0.jpg');
   const images = [
     'fox1.jpg',
@@ -28,7 +28,7 @@ const AddProductModal = ({ onClose }) => {
     'fox7.jpg',
   ];
 
-  const { addProduct } = useContext(ProductContext);
+  const { addItem } = useContext(ItemContext);
   const navigation = useNavigation();
 
   function makeid(length) {
@@ -44,10 +44,9 @@ const AddProductModal = ({ onClose }) => {
     return result;
   }
 
-  const handleAddProduct = () => {
+  const handleAddItem = () => {
     if (name && selectedImage) {
-      addProduct({ id: makeid(7), name, image: selectedImage });
-      //   addProduct({ name, image: `require('../../assets/images/${image}')` });
+      addItem({ id: makeid(7), name, image: selectedImage });
 
       if (Platform.OS === 'android') {
         ToastAndroid.show('Item added', ToastAndroid.SHORT);
@@ -65,7 +64,6 @@ const AddProductModal = ({ onClose }) => {
     }
   };
 
-  ///
   const renderDropdown = () => {
     if (Platform.OS === 'android') {
       return (
@@ -114,28 +112,21 @@ const AddProductModal = ({ onClose }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Product</Text>
+      <Text style={styles.title}>Add Item</Text>
       <TextInput
         style={styles.input}
         autoCapitalize="none"
-        placeholder="Product name"
+        placeholder="Item name"
         onChangeText={(text) => setName(text)}
       />
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Image name"
-        onChangeText={(text) => setImage(text)}
-      />
-      <Text style={styles.label}>
-        Choose the Image name from: fox0.jpg to fox7.jpg
-      </Text> */}
+
       <Text style={styles.label}>
         Select the Image name from: fox0.jpg to fox7.jpg
       </Text>
       {renderDropdown()}
       <View style={styles.buttons}>
         <Button title="Cancel" onPress={onClose} />
-        <Button title="Add" onPress={handleAddProduct} />
+        <Button title="Add" onPress={handleAddItem} />
       </View>
     </View>
   );
@@ -178,4 +169,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddProductModal;
+export default AddItemModal;
